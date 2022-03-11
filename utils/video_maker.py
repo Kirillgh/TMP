@@ -9,6 +9,10 @@ PNG_STORAGE = f"{GRAPHS_FILES}/*.png"
 
 
 def check_directories():
+    """Функция проверки директорий, необходимых для работы программы
+
+    Если какая-то из директорий отсутствует, создает ее
+    """
     if not os.path.exists(TEMP_FILES):
         os.mkdir(TEMP_FILES)
     if not os.path.exists(GRAPHS_FILES):
@@ -16,6 +20,7 @@ def check_directories():
 
 
 def make_gif():
+    """Функция создания gif из исходных png картинок графов"""
     check_directories()
     frames = []
     imgs = glob.glob(PNG_STORAGE)
@@ -31,6 +36,7 @@ def make_gif():
 
 
 def graph_deleting():
+    """Функция для очистки директории с графами"""
     imgs = glob.glob(PNG_STORAGE)
     for img in imgs:
         if os.path.exists(img):
