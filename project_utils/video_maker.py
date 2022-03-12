@@ -37,6 +37,7 @@ def make_gif():
 
 def graph_deleting():
     """Функция для очистки директории с графами"""
+    check_directories()
     imgs = glob.glob(PNG_STORAGE)
     for img in imgs:
         if os.path.exists(img):
