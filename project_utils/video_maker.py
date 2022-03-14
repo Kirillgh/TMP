@@ -3,7 +3,7 @@ import glob
 import os
 
 
-TEMP_FILES = "../tmp"
+TEMP_FILES = "./tmp"
 GRAPHS_FILES = f"{TEMP_FILES}/graphs"
 PNG_STORAGE = f"{GRAPHS_FILES}/*.png"
 
