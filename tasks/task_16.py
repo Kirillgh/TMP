@@ -3,6 +3,7 @@ import networkx
 from networkx.algorithms.connectivity import minimum_edge_cut
 from networkx import maximum_flow_value
 import matplotlib.pyplot as plt
+from project_utils import video_maker
 
 
 def random_edges(nodes):
@@ -49,10 +50,12 @@ def draw_and_save(graph, pos, edges):
     edges : list
         Список связей в графе.
     """
+    video_maker.graph_deleting()
     networkx.draw_networkx_nodes(graph, pos, node_color='g', node_size=500)
     networkx.draw_networkx_labels(graph, pos)
     networkx.draw_networkx_edges(graph, pos, edgelist=edges)
-    plt.savefig('../tmp/graph/graph01.png')
+    plt.savefig('./tmp/graphs/01.png')
+    video_maker.make_gif()
 
 
 def processing(nodes, edges):

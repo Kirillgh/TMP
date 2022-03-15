@@ -45,7 +45,7 @@ def draw(graph, pos, result, i):
     networkx.draw_networkx_nodes(graph, pos, cmap=plt.get_cmap('jet'), node_color='g', node_size=500)
     networkx.draw_networkx_labels(graph, pos)
     networkx.draw_networkx_edges(graph, pos, edgelist=result)
-    plt.savefig(f'../tmp/graphs/{number_of_pic(i+1)}.png')
+    plt.savefig(f'./tmp/graphs/{number_of_pic(i+1)}.png')
 
 
 def find_pair(preufer_code, node_array):

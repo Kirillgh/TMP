@@ -1,7 +1,7 @@
 from operator import itemgetter
 import matplotlib.pyplot as plt
 import networkx
-#from project_utils import video_maker
+from project_utils import video_maker
 
 def number_of_pic(num):
     """Функция для форматирования нумерации картинок
@@ -75,7 +75,7 @@ def preprocessing(node_list, e):
     networkx.draw_networkx_nodes(graph, pos, cmap=plt.get_cmap('jet'), node_color='g', node_size=500)
     networkx.draw_networkx_labels(graph, pos)
     networkx.draw_networkx_edges(graph, pos, edgelist=e)
-    plt.savefig(f'../tmp/graphs/{number_of_pic(number_of_picture)}.png')
+    plt.savefig(f'./tmp/graphs/{number_of_pic(number_of_picture)}.png')
     plt.clf()
     return graph, number_of_picture
 ####################################################################################
@@ -121,7 +121,7 @@ def computing(e, number_of_picture, graph):
         networkx.draw_networkx_nodes(graph, pos, cmap=plt.get_cmap('jet'), node_color='g', node_size=500)
         networkx.draw_networkx_labels(graph, pos)
         networkx.draw_networkx_edges(graph, pos, edgelist=e)
-        plt.savefig(f'../tmp/graphs/{number_of_pic(number_of_picture)}.png')
+        plt.savefig(f'./tmp/graphs/{number_of_pic(number_of_picture)}.png')
         plt.clf()
 
     video_maker.make_gif()
