@@ -30,7 +30,7 @@ def random_edges(nodes):
         edges_dict[i] = []
         for j in range(i, len(nodes)):
             if i != j:
-                edges_dict[i].append((i, j, random.randint(0, len(nodes))))
+                edges_dict[i].append((i, j, random.randint(1, len(nodes))))
     if len(nodes) > 2:
         for i in edges_dict.keys():
             for j in random.choices(edges_dict[i], k=len(edges_dict[i])-len(edges_dict[i])//2):
@@ -38,7 +38,7 @@ def random_edges(nodes):
     return edges_list
 
 
-def draw_and_save(graph, pos, edges):
+def draw_and_save(graph, pos, edges, edges_colors):
     """Функция для отрисовки и сохранения графа
 
     Parameters
@@ -49,11 +49,15 @@ def draw_and_save(graph, pos, edges):
         Словарь позиций вершин графа.
     edges : list
         Список связей в графе.
+    edges_colors : list
+        Список цветов связей графа.
     """
     video_maker.graph_deleting()
     networkx.draw_networkx_nodes(graph, pos, node_color='g', node_size=500)
     networkx.draw_networkx_labels(graph, pos)
-    networkx.draw_networkx_edges(graph, pos, edgelist=edges)
+    networkx.draw_networkx_edges(graph, pos, edgelist=edges, edge_color=edges_colors)
+    labels = networkx.get_edge_attributes(graph, 'weight')
+    networkx.draw_networkx_edge_labels(graph, pos, edge_labels=labels)
     plt.savefig('./tmp/graphs/01.png')
     video_maker.make_gif()
 
@@ -83,9 +87,16 @@ def processing(nodes, edges):
     pos = networkx.circular_layout(graph)
     graph.add_weighted_edges_from(edges)
 
-    draw_and_save(graph, pos, edges)
+    min_edge_cut, max_flow = minimum_edge_cut(graph, nodes[0], nodes[-1]), maximum_flow_value(graph, nodes[0], nodes[-1], capacity='weight')
+    edges_colors = []
+    for i in edges:
+        if (i[0], i[1]) in min_edge_cut:
+            edges_colors.append('r')
+        else:
+            edges_colors.append('black')
+    draw_and_save(graph, pos, edges, edges_colors)
 
-    return minimum_edge_cut(graph, nodes[0], nodes[-1]), maximum_flow_value(graph, nodes[0], nodes[-1], capacity='weight')
+    return min_edge_cut, max_flow
 
 
 def main():
