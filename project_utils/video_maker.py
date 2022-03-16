@@ -23,7 +23,7 @@ def make_gif():
     """Функция создания gif из исходных png картинок графов"""
     check_directories()
     frames = []
-    imgs = glob.glob(PNG_STORAGE)
+    imgs = sorted(glob.glob(PNG_STORAGE))
     if len(imgs):
         for i in imgs:
             new_frame = Image.open(i)
