@@ -1,11 +1,7 @@
 from PIL import Image
 import glob
 import os
-
-
-TEMP_FILES = "./tmp"
-GRAPHS_FILES = f"{TEMP_FILES}/graphs"
-PNG_STORAGE = f"{GRAPHS_FILES}/*.png"
+from config import TEMP_FILES, GRAPHS_FILES, PNG_STORAGE
 
 
 def check_directories():

@@ -45,7 +45,7 @@ def draw(graph, pos, result, i):
     networkx.draw_networkx_nodes(graph, pos, cmap=plt.get_cmap('jet'), node_color='g', node_size=500)
     networkx.draw_networkx_labels(graph, pos)
     networkx.draw_networkx_edges(graph, pos, edgelist=result)
-    plt.savefig(f'./tmp/graphs/{number_of_pic(i+1)}.png')
+    plt.savefig(f'{video_maker.GRAPHS_FILES}/{number_of_pic(i+1)}.png')
 
 
 def find_pair(preufer_code, node_array):
@@ -131,16 +131,30 @@ def computing(graph, pos, preufer_code, node_array):
         draw(graph, pos, result, i)
     result.append(tuple(node_array))
     draw(graph, pos, result, i + 1)
-    print(result)
     video_maker.make_gif()
+    plt.clf()
+    return result
 
 
-def main():
+def main(preufer_code=None, node_array=None):
     """Основная функция модуля, решающего задачу №19 Декодер Прюфера
 
     Считывает с консоли код Прюфера, создает список вершин и восстанавливает исходный граф.
-    """
-    preufer_code, node_array = input_values()
-    graph, pos = preprocessing(node_array)
-    computing(graph, pos, preufer_code, node_array)
 
+    Parameters
+    ----------
+    preufer_code : list
+        Код Прюфера.
+    node_array : list
+        Список вершин графа.
+
+    Returns
+    -------
+    str
+        Строка с ответом.
+    """
+    if not preufer_code and not node_array:
+        preufer_code, node_array = input_values()
+    graph, pos = preprocessing(node_array)
+    result = computing(graph, pos, preufer_code, node_array)
+    return str(result)
