@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 import networkx
 from project_utils import video_maker
 
+
 def number_of_pic(num):
     """Функция для форматирования нумерации картинок
 
@@ -27,7 +28,7 @@ def number_of_pic(num):
         return f'0{num}'
     return f'{num}'
 
-####################################################################################
+
 def input_values():
     """
     Функция ввода значений
@@ -37,21 +38,19 @@ def input_values():
     tuple
         Список вершин графа, список ребер графа.
     """
-    print("Введите значения вершин дерева в порядке возрастания через пробел")
-    node_list = list(map(int, input().split()))
-
-    print("Введите рёбра графа в следующем формате: 1 2, 2 3, 3 4")
+    node_list = list(map(int, input("Введите значения вершин дерева в порядке возрастания через пробел: " ).split()))
     e = []
     try:
-        temp = input().split(', ')
+        temp = input("Введите рёбра графа в следующем формате: 1 2, 2 3, 3 4: ").split(', ')
         for i in temp:
             tmp = tuple(map(int, i.split()))
             e.append(tmp)
-        print("Ваше дерево ", e)
+        print("Ребра вашего графа: ", e)
     except:
         print('Формат неверный! Введите по примеру: 1 2, 2 3, 3 4')
     return node_list, e
-####################################################################################
+
+
 def preprocessing(node_list, e):
     """Функция создания графа
 
@@ -67,7 +66,6 @@ def preprocessing(node_list, e):
                 Граф, номер картинки.
         """
     number_of_picture = 0
-
     video_maker.graph_deleting()
     graph = networkx.Graph()
     graph.add_nodes_from(node_list)
@@ -75,10 +73,11 @@ def preprocessing(node_list, e):
     networkx.draw_networkx_nodes(graph, pos, cmap=plt.get_cmap('jet'), node_color='g', node_size=500)
     networkx.draw_networkx_labels(graph, pos)
     networkx.draw_networkx_edges(graph, pos, edgelist=e)
-    plt.savefig(f'./tmp/graphs/{number_of_pic(number_of_picture)}.png')
+    plt.savefig(f'{video_maker.GRAPHS_FILES}/{number_of_pic(number_of_picture)}.png')
     plt.clf()
     return graph, number_of_picture
-####################################################################################
+
+
 def computing(e, number_of_picture, graph):
     """Функция обработки графа
             Parameters
@@ -121,21 +120,35 @@ def computing(e, number_of_picture, graph):
         networkx.draw_networkx_nodes(graph, pos, cmap=plt.get_cmap('jet'), node_color='g', node_size=500)
         networkx.draw_networkx_labels(graph, pos)
         networkx.draw_networkx_edges(graph, pos, edgelist=e)
-        plt.savefig(f'./tmp/graphs/{number_of_pic(number_of_picture)}.png')
+        plt.savefig(f'{video_maker.GRAPHS_FILES}/{number_of_pic(number_of_picture)}.png')
         plt.clf()
 
     video_maker.make_gif()
-    print("Оставшееся ребро", e)
-    print("Код Прюфера ", res)
-    ####################################################################################
+    plt.clf()
+    return e, res
 
-def main():
+
+def main(node_list=None, e=None):
     """
     Основная функция модуля, решающего задачу №19 Кодер Прюфера
 
     Принимает на вход вершины графа в порядке возрастания, а также сам граф.
     Итоговый результат - оставшееся после выполнения алгоритма ребро и Код Прюфера.
+
+    Parameters
+    ----------
+    node_list : list
+        Список вершин графа.
+    e : list
+        Список ребер графа.
+
+    Returns
+    -------
+    str
+        Строка с ответом.
     """
-    node_list, e = input_values()
+    if not node_list and not e:
+        node_list, e = input_values()
     graph, number_of_picture = preprocessing(node_list, e)
-    computing(e, number_of_picture, graph)
+    e, res = computing(e, number_of_picture, graph)
+    return f'Оставшееся ребро: {e}\nКод Прюфера: {res}'

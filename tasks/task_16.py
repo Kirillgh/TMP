@@ -58,8 +58,9 @@ def draw_and_save(graph, pos, edges, edges_colors):
     networkx.draw_networkx_edges(graph, pos, edgelist=edges, edge_color=edges_colors)
     labels = networkx.get_edge_attributes(graph, 'weight')
     networkx.draw_networkx_edge_labels(graph, pos, edge_labels=labels)
-    plt.savefig('./tmp/graphs/01.png')
+    plt.savefig(f'{video_maker.GRAPHS_FILES}/01.png')
     video_maker.make_gif()
+    plt.clf()
 
 
 def processing(nodes, edges):
@@ -104,8 +105,14 @@ def main():
 
     Создает случайный граф, находит в нем максимальный поток и минимальный разрез,
     выводит ответ в консоль, сохраняет визуализированный граф в качестве картинки
+
+    Returns
+    -------
+    str
+        Строка с ответом.
     """
     nodes = list(range(random.randint(4, 12)))
     edges = random_edges(nodes)
     min_edge_cut, max_flow = processing(nodes, edges)
-    print(f'Минимальный разрез: {min_edge_cut}\nМаксимальный поток: {max_flow}')
+    return f'Минимальный разрез: {min_edge_cut}\nМаксимальный поток: {max_flow}'
+
